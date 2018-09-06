@@ -57,7 +57,7 @@ class EpubView extends Component {
 
   initReader() {
     const { toc } = this.state
-    const { location, epubOptions, getRendition } = this.props
+    const { location, epubOptions, getRendition, renditionOn } = this.props
     const node = this.viewerRef.current
     this.rendition = this.book.renderTo(node, {
       contained: true,
@@ -78,6 +78,12 @@ class EpubView extends Component {
       this.rendition.next()
     }
     this.rendition.on('locationChanged', this.onLocationChange)
+
+    renditionOn && renditionOn.forEach(({event, callback}) => {
+      this.rendition.on(event, callback)
+    })
+
+    
     getRendition && getRendition(this.rendition)
   }
 
@@ -130,7 +136,11 @@ EpubView.propTypes = {
   tocChanged: PropTypes.func,
   styles: PropTypes.object,
   epubOptions: PropTypes.object,
-  getRendition: PropTypes.func
+  getRendition: PropTypes.func,
+  renditionOn: PropTypes.arrayOf(PropTypes.shape({
+    event: PropTypes.string,
+    callback: PropTypes.func,
+  }))
 }
 
 export default EpubView

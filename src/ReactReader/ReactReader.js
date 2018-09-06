@@ -127,7 +127,8 @@ class ReactReader extends PureComponent {
       getRendition,
       locationChanged,
       location,
-      swipeable
+      swipeable,
+      renditionOn
     } = this.props
     const { toc, expanedToc } = this.state
     return (
@@ -156,6 +157,7 @@ class ReactReader extends PureComponent {
                 locationChanged={locationChanged}
                 epubOptions={epubOptions}
                 getRendition={getRendition}
+                renditionOn={renditionOn}
               />
               {swipeable && <div style={styles.swipeWrapper} />}
             </div>
@@ -201,7 +203,11 @@ ReactReader.propTypes = {
   styles: PropTypes.object,
   epubOptions: PropTypes.object,
   getRendition: PropTypes.func,
-  swipeable: PropTypes.bool
+  swipeable: PropTypes.bool,
+  renditionOn: PropTypes.arrayOf(PropTypes.shape({
+    event: PropTypes.string,
+    callback: PropTypes.func,
+  }))
 }
 
 export default ReactReader
